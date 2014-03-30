@@ -37,7 +37,7 @@ public class SAXMsgTool<K extends MsgModel> {
 		SAXParserFactory spfactory = SAXParserFactory.newInstance();
 		// 生成SAX解析对象
 		SAXParser parser;
-		MsgModel msgModel = msg.getClass();
+		TextMsgModel msgModel = new TextMsgModel();
 		try {
 			parser = spfactory.newSAXParser();
 			// 指定XML文件，进行XML解析
