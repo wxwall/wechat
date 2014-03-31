@@ -43,7 +43,7 @@ public class WeChatAction extends HttpServlet {
 		String wxMsgXml = request.getAttribute("msgXml") == null ? "" : request.getAttribute("msgXml").toString();
 		PrintWriter out = response.getWriter();
 		try {
-			String returnXml = weChatMng.process(msgType,wxMsgXml);
+			String returnXml = weChatMng.process(msgType,wxMsgXml).trim();
 			out.print(returnXml);
 		} catch (WeChatException e) {
 			//后续处理异常，暂时只输出错误日志信息

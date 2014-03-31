@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public class TextReturnMsgModel extends ReturnMsgModel {
 	
 	
-	@XStreamAlias("content")
+	@XStreamAlias("Content")
 	private String content;
 
 	

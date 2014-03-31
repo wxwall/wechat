@@ -1,6 +1,7 @@
 package cn.newtouch.inf.util.msgTool;
 
 import java.io.ByteArrayInputStream;
+import java.io.Writer;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -12,6 +13,10 @@ import cn.newtouch.inf.model.inmsg.TextMsgModel;
 import cn.newtouch.inf.util.Exception.WeChatException;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 
 /**
  * 消息处理工具类
@@ -33,13 +38,13 @@ public class SAXMsgTool<K extends MsgModel> {
 	 * @return
 	 * @throws WeChatException
 	 */
-	public static MsgModel xmlToObj(String xml,Class<MsgModel> msg) throws WeChatException {
+	public static MsgModel xmlToObj(String xml) throws WeChatException {
 		SAXParserFactory spfactory = SAXParserFactory.newInstance();
 		// 生成SAX解析对象
 		SAXParser parser;
 		TextMsgModel msgModel = new TextMsgModel();
 		try {
-			parser = spfactory.newSAXParser();
+			parser = spfactory.newSAXParser(); 
 			// 指定XML文件，进行XML解析
 			parser.parse(new ByteArrayInputStream(xml.getBytes("UTF-8")), msgModel);
 		} catch (Exception e) {
@@ -63,13 +68,35 @@ public class SAXMsgTool<K extends MsgModel> {
 	}
 
 	/**
-	 * 减少实例化对象，提升性能
+	 * 添加XStream支持CDATA
 	 * 
 	 * @return
 	 */
 	public static XStream getXStreamInstance() {
-		if (xstream == null)
-			return new XStream();
-		return xstream;
+		return new XStream(new XppDriver() {
+	        public HierarchicalStreamWriter createWriter(Writer out) {
+	            return new PrettyPrintWriter(out) {
+	            	
+	            	private String nodeName;
+	                @Override
+					public void startNode(String name) {
+	                	nodeName = name;
+						super.startNode(name);
+					}
+
+					protected void writeText(QuickWriter writer, String text) {
+						if(nodeName.equals("CreateTime")) {//MsgId没有CDATA的写法，所以这里处理了
+							writer.write(text);
+						}else{
+							writer.write("<![CDATA[");
+							writer.write(text);
+							writer.write("]]>");
+						}
+	                }
+	            };
+	        }
+	    });
 	}
 }
+
+

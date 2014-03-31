@@ -3,6 +3,7 @@ package cn.newtouch.inf.service;
 import cn.newtouch.inf.model.inmsg.MsgModel;
 import cn.newtouch.inf.model.outmsg.ReturnMsgModel;
 import cn.newtouch.inf.util.Exception.WeChatException;
+import cn.newtouch.inf.util.msgTool.SAXMsgTool;
 
 /**
  * 抽象出功能模块
@@ -32,15 +33,7 @@ public abstract class WeChatServiceAbs<T extends ReturnMsgModel,K extends MsgMod
 	}
 	
 	
-	public String returnMsg(ReturnMsgModel obj) throws WeChatException {
-		String xml = "<xml>" +
-		"<ToUserName><![CDATA["+obj.getToUserName()+"]]></ToUserName>" +
-		"<FromUserName><![CDATA["+obj.getFromUserName()+"]]></FromUserName>" +
-		"<CreateTime>"+obj.getCreateTime()+"</CreateTime>" +
-		"<MsgType><![CDATA["+obj.getMsgId()+"]]></MsgType>" +
-		"<Content><![CDATA[你好]]></Content>" +
-		"</xml>";
-		return xml;
-		//return SAXMsgTool.toXmlString(obj);
+	public String returnMsg(T obj) throws WeChatException {
+		return SAXMsgTool.toXmlString(obj);
 	}
 }

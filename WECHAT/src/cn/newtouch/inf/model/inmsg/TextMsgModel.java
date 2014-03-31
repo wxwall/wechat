@@ -17,12 +17,15 @@ public class TextMsgModel extends MsgModel {
 	/** ÏûÏ¢ID */
 	private String msgId;
 
-	public void setContent(String content) {
-		this.content = content;
-	}
-
+	
+	
+	
 	public String getContent() {
 		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public String getMsgId() {
@@ -32,7 +35,7 @@ public class TextMsgModel extends MsgModel {
 	public void setMsgId(String msgId) {
 		this.msgId = msgId;
 	}
-	
+
 	/** ÁÙÊ±×Ö¶Î */
 	private String tempStr = null;
 
@@ -61,43 +64,6 @@ public class TextMsgModel extends MsgModel {
 		tempStr = new String(ch, offset, length);
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + ((msgId == null) ? 0 : msgId.hashCode());
-		result = prime * result + ((tempStr == null) ? 0 : tempStr.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TextMsgModel other = (TextMsgModel) obj;
-		if (content == null) {
-			if (other.content != null)
-				return false;
-		} else if (!content.equals(other.content))
-			return false;
-		if (msgId == null) {
-			if (other.msgId != null)
-				return false;
-		} else if (!msgId.equals(other.msgId))
-			return false;
-		if (tempStr == null) {
-			if (other.tempStr != null)
-				return false;
-		} else if (!tempStr.equals(other.tempStr))
-			return false;
-		return true;
-	}
-	
 	
 
 }
